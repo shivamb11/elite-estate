@@ -16,8 +16,8 @@ router.get("/:id", getPost);
 
 router.post("/", verifyToken, addPost);
 
-router.patch("/:id", updatePost);
+router.patch("/:id", verifyToken, updatePost);
 
-router.delete("/:id", deletePost);
+router.delete("/:id", verifyToken, deletePost);
 
 export default router;

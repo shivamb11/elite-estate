@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import prisma from "../lib/prisma";
 import { catchAsync } from "../utils";
 import cloudinary from "../cloudinary";
+import { RequestWithUser } from "../RequestWithUser.types";
 
 export const getUsers = catchAsync(async (req: Request, res: Response) => {
   const users = await prisma.user.findMany({ include: { avatar: true } });
@@ -152,6 +153,98 @@ export const updateUser = catchAsync(async (req: Request, res: Response) => {
 
   res.status(200).send(user);
 });
+
+export const updateUserSavedPosts = catchAsync(
+  async (req: RequestWithUser, res: Response) => {
+    const { id } = req.body;
+
+    const foundUser = await prisma.user.findUnique({
+      where: {
+        id: req.user,
+      },
+      select: {
+        savedPosts: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (foundUser!.savedPosts.some((item) => item.id === id)) {
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: req.user,
+        },
+        data: {
+          savedPosts: {
+            deleteMany: {
+              where: {
+                id,
+              },
+            },
+          },
+        },
+        select: {
+          savedPosts: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      });
+      return res
+        .status(200)
+        .send({ ...updatedUser, message: "Post deleted successfully" });
+    } else {
+      const post = await prisma.post.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!post) {
+        return res.status(404).send("Post not found");
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: req.user,
+        },
+        data: {
+          savedPosts: {
+            push: [
+              {
+                id: post?.id,
+                title: post?.title,
+                images: post.images,
+                price: post?.price,
+                latitude: post?.latitude,
+                longitude: post?.longitude,
+                address: post?.address,
+                transaction: post?.transaction,
+                property: post?.property,
+                features: post?.features,
+              },
+            ],
+          },
+        },
+        select: {
+          savedPosts: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      });
+      return res
+        .status(200)
+        .send({ ...updatedUser, message: "Post saved successfully" });
+    }
+  }
+);
 
 export const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;

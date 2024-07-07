@@ -74,7 +74,10 @@ function Profile() {
               <CardSkeleton cards={2} />
             ) : (
               userData.posts.map((item) => (
-                <Card item={{ ...item, user }} key={item.id} />
+                <Card
+                  item={{ ...item, user, image: item.images[0] }}
+                  key={item.id}
+                />
               ))
             )}
           </ul>
@@ -88,7 +91,10 @@ function Profile() {
               <CardSkeleton cards={2} />
             ) : (
               userData.savedPosts.map((item) => (
-                <Card item={{ ...item, user }} key={item.id} />
+                <Card
+                  item={{ ...item, user, image: item.images[0] }}
+                  key={item.id}
+                />
               ))
             )}
           </ul>

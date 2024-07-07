@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { useAppSelector } from "../../redux/store";
 import { useHousePage } from "./useHousePage";
+import { useUserSavedPost } from "./useUserSavedPost";
 import Slider from "../../components/Slider";
 import LocationMap from "../../components/LocationMap";
 import {
@@ -21,7 +23,19 @@ const nearbyPlacesImage = [
 
 function HousePage() {
   const { id } = useParams<{ id: string }>();
-  const { data: houseData, isPending, error } = useHousePage(id!);
+  const {
+    data: houseData,
+    isPending: isLoadingHouse,
+    error: houseLoadingError,
+  } = useHousePage(id!);
+
+  const {
+    mutate,
+    isPending: isUpdatingSavedPost,
+    error: savedPostUpdatingError,
+  } = useUserSavedPost();
+
+  const user = useAppSelector((state) => state.user).currentUser;
 
   const [sliderIdx, setSliderIdx] = useState<null | number>(null);
 
@@ -41,7 +55,7 @@ function HousePage() {
     }
   };
 
-  return houseData === undefined || isPending ? (
+  return houseData === undefined || isLoadingHouse ? (
     <HouseSkeleton />
   ) : sliderIdx !== null ? (
     <Slider
@@ -235,14 +249,22 @@ function HousePage() {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center xs:flex-row">
+          <button className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center xs:flex-row">
             <img src="/chat.png" className="size-5" alt="chat-icon" />
             <span className="text-sm">Send a message</span>
-          </div>
-          <div className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center xs:flex-row">
+          </button>
+          <button
+            className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center disabled:cursor-not-allowed xs:flex-row"
+            onClick={() => mutate(id!)}
+            disabled={isUpdatingSavedPost}
+          >
             <img src="/save.png" className="size-5" alt="save-icon" />
-            <span className="text-sm">Save the place</span>
-          </div>
+            <span className="text-sm">
+              {user?.savedPosts.map((item) => item.id).includes(id!)
+                ? "Unsave the place"
+                : "Save the place"}
+            </span>
+          </button>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ export interface UserState {
       filename: string;
       public_id: string;
     };
+    savedPosts: { id: string; title: string }[];
   } | null;
   isFetching: boolean;
   error: string;
@@ -44,10 +45,29 @@ export const userSlice = createSlice({
           filename: string;
           public_id: string;
         };
+        savedPosts: {
+          id: string;
+          title: string;
+          price: number;
+          images: [];
+          latitude: number;
+          longitude: number;
+          address: string;
+          transaction: string;
+          property: string;
+          features: object;
+        }[];
       }>,
     ) => {
+      const newPayload = {
+        ...action.payload,
+        savedPosts: action.payload.savedPosts.map((item) => ({
+          id: item.id,
+          title: item.title,
+        })),
+      };
       state.isFetching = false;
-      state.currentUser = action.payload;
+      state.currentUser = newPayload;
     },
     logout: (state) => {
       state.isFetching = false;
@@ -71,8 +91,35 @@ export const userSlice = createSlice({
         };
       }>,
     ) => {
-      state.currentUser = action.payload;
       state.isFetching = false;
+      state.currentUser = {
+        ...action.payload,
+        savedPosts: state.currentUser?.savedPosts || [],
+      };
+    },
+    updateSavedPost: (
+      state,
+      action: PayloadAction<{
+        savedPosts: {
+          id: string;
+          title: string;
+          price: number;
+          images: [];
+          latitude: number;
+          longitude: number;
+          address: string;
+          transaction: string;
+          property: string;
+          features: object;
+        }[];
+      }>,
+    ) => {
+      const newPayload = action.payload.savedPosts.map((item) => ({
+        id: item.id,
+        title: item.title,
+      }));
+      state.isFetching = false;
+      state.currentUser = { ...state.currentUser!, savedPosts: newPayload };
     },
   },
   extraReducers: (builder) => {
@@ -82,7 +129,13 @@ export const userSlice = createSlice({
   },
 });
 
-export const { loginStart, loginComplete, logout, updateStart, updateUser } =
-  userSlice.actions;
+export const {
+  loginStart,
+  loginComplete,
+  logout,
+  updateStart,
+  updateUser,
+  updateSavedPost,
+} = userSlice.actions;
 
 export default userSlice;

@@ -5,6 +5,7 @@ import {
   getUser,
   getUsers,
   updateUser,
+  updateUserSavedPosts,
 } from "../controllers/user.controller";
 
 const router = express.Router();
@@ -12,6 +13,8 @@ const router = express.Router();
 router.get("/", verifyToken, getUsers);
 
 router.get("/:id", verifyToken, authorizeUser, getUser);
+
+router.patch("/:id/savedpost", verifyToken, updateUserSavedPosts);
 
 router.patch("/:id", verifyToken, authorizeUser, updateUser);
 

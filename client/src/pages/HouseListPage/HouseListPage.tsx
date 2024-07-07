@@ -20,7 +20,9 @@ function HouseListPage() {
           {listData === undefined || isPending ? (
             <CardSkeleton cards={4} />
           ) : (
-            listData.map((item) => <Card key={item.id} item={item} />)
+            listData.map((item) => (
+              <Card key={item.id} item={{ ...item, image: item.images[0] }} />
+            ))
           )}
         </ul>
       </div>

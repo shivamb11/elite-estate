@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import { useUserSavedPost } from "../pages/HousePage/useUserSavedPost";
 import { capitalizeWord } from "../utils";
 
 type CardProps = {
@@ -7,11 +8,11 @@ type CardProps = {
     id: string;
     title: string;
     price: number;
-    images: {
+    image: {
       filename: string;
       url: string;
       public_id: string;
-    }[];
+    };
     latitude: number;
     longitude: number;
     address: string;
@@ -34,6 +35,8 @@ type CardProps = {
 };
 
 function Card({ item }: CardProps) {
+  const { mutate, isPending, error } = useUserSavedPost();
+
   return (
     <li className="flex w-full flex-col gap-2 py-3 lg:flex-row lg:gap-4">
       <Link
@@ -41,10 +44,7 @@ function Card({ item }: CardProps) {
         className="flex h-64 items-center lg:h-48 lg:w-64"
       >
         <img
-          src={item.images[0].url.replace(
-            "upload/",
-            "upload/c_fill,h_190,w_225/",
-          )}
+          src={item.image.url.replace("upload/", "upload/c_fill,h_190,w_225/")}
           className="h-full w-full cursor-pointer rounded-md object-cover"
           alt=""
         />
@@ -92,7 +92,11 @@ function Card({ item }: CardProps) {
             </div>
           </div>
           <div className="flex gap-4 lg:gap-2">
-            <button className="border border-stone-300 p-2 hover:border-stone-500">
+            <button
+              className="border border-stone-300 p-2 hover:border-stone-500 disabled:cursor-not-allowed"
+              onClick={() => mutate(item.id)}
+              disabled={isPending}
+            >
               <img src="/save.png" className="size-4" alt="save-img" />
             </button>
             <button className="border border-stone-300 p-2 hover:border-stone-500">
