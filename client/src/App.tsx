@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import "react-loading-skeleton/dist/skeleton.css";
 
+import { SocketProvider } from "./context/SocketContext";
 import AppLayout from "./pages/AppLayout/AppLayout";
 import Home from "./pages/Home/Home";
 import HouseListPage from "./pages/HouseListPage/HouseListPage";
@@ -73,20 +74,22 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Toaster
-        toastOptions={{
-          success: {
-            duration: 2000,
-          },
-          error: {
-            duration: 3000,
-          },
-        }}
-      />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <SocketProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <Toaster
+          toastOptions={{
+            success: {
+              duration: 2000,
+            },
+            error: {
+              duration: 3000,
+            },
+          }}
+        />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </SocketProvider>
   );
 }
 

@@ -6,9 +6,9 @@ import cors from "cors";
 import authRoutes from "./routes/auth.route";
 import postRoutes from "./routes/post.route";
 import userRoutes from "./routes/user.route";
+import chatRoutes from "./routes/chat.route";
+import messageRoutes from "./routes/message.route";
 import AppError from "./AppError";
-import { verifyToken } from "./middlewares/auth";
-import { RequestWithUser } from "./RequestWithUser.types";
 
 const app = express();
 const { CLIENT_URL, PORT = 8080 } = process.env;
@@ -26,11 +26,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-
-app.use("/api", verifyToken, (req: RequestWithUser, res) => {
-  console.log(req.user);
-  res.send("hello");
-});
+app.use("/api/chats", chatRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   const { status = 500, message } = err;

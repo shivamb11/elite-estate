@@ -5,7 +5,7 @@ import { useUser } from "./useUser";
 import { useLogout } from "./useLogout";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
-import Chat from "../../components/Chat";
+import Chat from "../../components/Chat/Chat";
 import ButtonLink from "../../components/ButtonLink";
 import CardSkeleton from "../../components/CardSkeleton";
 

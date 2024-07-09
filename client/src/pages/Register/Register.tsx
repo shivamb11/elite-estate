@@ -51,7 +51,6 @@ function Register() {
   const [submitError, setsubmitError] = useState<string>("");
 
   const deleteImage = async () => {
-    console.log("hi");
     // cld.v2.uploader
     //   .destroy(publicId, function (error, result) {
     //     console.log(result, error);

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
-import Chat from "../../components/Chat";
+import Chat from "../../components/Chat/Chat";
 import Modal from "../../components/Modal";
 
 function AppLayout() {

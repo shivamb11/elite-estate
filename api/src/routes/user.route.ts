@@ -1,4 +1,5 @@
 import express from "express";
+
 import { authorizeUser, verifyToken } from "../middlewares/auth";
 import {
   deleteUser,

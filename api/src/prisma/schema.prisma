@@ -16,6 +16,8 @@ model User {
   avatar   Avatar?
   posts Post[]
   savedPosts SavedPost[]
+  chats Chat[] @relation(fields: [chatIds], references: [id])
+  chatIds String[] @db.ObjectId
   createdAt DateTime @default(now())
 }
 
@@ -99,4 +101,23 @@ type Size {
 type NearbyPlace {
   key String
   value String
+}
+
+model Chat {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  messages Message[]
+  users User[] @relation(fields: [userIds], references: [id])
+  userIds String[] @db.ObjectId
+  seenBy String[] @db.ObjectId
+  lastMessage  String?
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  text String
+  userId String @db.ObjectId
+  chat Chat @relation(fields: [chatId], references: [id])
+  chatId String @db.ObjectId
+  createdAt DateTime @default(now())
 }

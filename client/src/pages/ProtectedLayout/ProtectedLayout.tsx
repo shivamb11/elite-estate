@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 import { useAppSelector } from "../../redux/store";
-import Chat from "../../components/Chat";
+import Chat from "../../components/Chat/Chat";
 import Modal from "../../components/Modal";
 import Navbar from "../../components/Navbar";
 

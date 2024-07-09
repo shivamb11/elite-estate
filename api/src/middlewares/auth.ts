@@ -64,7 +64,29 @@ export const authorizePostOwner = catchAsync(
     });
 
     if (userId !== post?.userId) {
-      res.status(403).send("You aren't authorized to update this.");
+      throw new AppError(403, "You aren't authorized to update this.");
+    }
+
+    next();
+  }
+);
+
+export const authorizeChatParticipant = catchAsync(
+  async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const userId = req.user!;
+
+    const chat = await prisma.chat.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        userIds: true,
+      },
+    });
+
+    if (chat?.userIds.includes(userId) === false) {
+      throw new AppError(403, "You aren't authorized to read this.");
     }
 
     next();
