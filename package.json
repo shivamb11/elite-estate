@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "api": "cd api && npm run dev",
     "client": "cd client && npm run dev",
-    "api": "cd api && npm start"
+    "socket": "cd socket && npm run dev"
   },
   "keywords": [],
   "author": "",
