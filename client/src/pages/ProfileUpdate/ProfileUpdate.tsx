@@ -7,6 +7,7 @@ import { useAppSelector } from "../../redux/store";
 import { useUpdateProfile } from "./useUpdateProfile";
 import CloudinaryUploadWidget from "../../components/CloudinaryUploadWidget";
 import ReactFormError from "../../components/ReactFormError";
+import Spinner from "../../components/Spinner";
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_PRESET_NAME = import.meta.env.VITE_CLOUDINARY_PRESET_NAME;
@@ -98,6 +99,9 @@ function ProfileUpdate() {
 
   return (
     <div className="flex flex-col gap-6 lg:h-[calc(100vh-112px)] lg:flex-row lg:gap-0">
+      {isPending && (
+        <Spinner parentContainerClassName="absolute z-10 flex h-full w-full items-center justify-center backdrop-blur-[2px]" />
+      )}
       <div className="flex h-full w-full flex-col gap-7 py-3 lg:w-3/5 lg:pr-28">
         <h1 className="text-2xl font-light xs:text-3xl">Update Information</h1>
         <form

@@ -61,10 +61,11 @@ export const userSlice = createSlice({
     ) => {
       const newPayload = {
         ...action.payload,
-        savedPosts: action.payload.savedPosts.map((item) => ({
-          id: item.id,
-          title: item.title,
-        })),
+        savedPosts:
+          action.payload.savedPosts?.map((item) => ({
+            id: item.id,
+            title: item.title,
+          })) || [],
       };
       state.isFetching = false;
       state.currentUser = newPayload;

@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 
 import { useLogin } from "./useLogin";
 import ReactFormError from "../../components/ReactFormError";
+import Spinner from "../../components/Spinner";
 
 type FormInputs = {
   username: string;
@@ -44,8 +45,14 @@ function Login() {
     }
   }, [error]);
 
-  if (isWorking) {
-    return null;
+  if (isPending) {
+    return (
+      <Spinner
+        parentContainerClassName={
+          "flex justify-center items-center min-h-[calc(90vh-112px)]"
+        }
+      />
+    );
   }
 
   return (
@@ -95,7 +102,7 @@ function Login() {
             </div>
             <button
               className="h-12 w-full border-2 bg-yellow-500 uppercase text-white hover:bg-yellow-400 focus:outline-yellow-500 disabled:cursor-not-allowed disabled:bg-yellow-300"
-              disabled={isSubmitting}
+              disabled={isWorking}
             >
               Sign in
             </button>

@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import { useRegister } from "./useRegister";
 import CloudinaryUploadWidget from "../../components/CloudinaryUploadWidget";
 import ReactFormError from "../../components/ReactFormError";
+import Spinner from "../../components/Spinner";
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_PRESET_NAME = import.meta.env.VITE_CLOUDINARY_PRESET_NAME;
@@ -91,8 +92,14 @@ function Register() {
     }
   }, [error]);
 
-  if (isWorking) {
-    return null;
+  if (isPending) {
+    return (
+      <Spinner
+        parentContainerClassName={
+          "flex justify-center items-center min-h-[calc(90vh-112px)]"
+        }
+      />
+    );
   }
 
   return (
@@ -222,7 +229,7 @@ function Register() {
             {submitError && <ReactFormError message={submitError} />}
             <button
               className="h-12 w-full border-2 bg-yellow-500 uppercase text-white hover:bg-yellow-400 focus:outline-yellow-500 disabled:cursor-not-allowed disabled:bg-yellow-300 lg:col-span-2"
-              disabled={isSubmitting}
+              disabled={isWorking}
             >
               Sign up
             </button>
