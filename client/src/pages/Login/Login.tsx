@@ -45,18 +45,12 @@ function Login() {
     }
   }, [error]);
 
-  if (isPending) {
-    return (
-      <Spinner
-        parentContainerClassName={
-          "flex justify-center items-center min-h-[calc(90vh-112px)]"
-        }
-      />
-    );
-  }
-
   return (
     <div className="flex h-[calc(100vh-112px)] w-full">
+      {isPending && (
+        <Spinner parentContainerClassName="absolute z-10 flex h-full w-full items-center justify-center backdrop-blur-[2px]" />
+      )}
+
       <div className="my-auto w-full lg:w-3/5 lg:pr-20">
         <div className="mx-auto flex w-fit flex-col items-center gap-10 px-4 py-6 shadow-all-sm sm:p-8 md:p-12 md:shadow-all-lg">
           <h1 className="text-center text-3xl font-semibold uppercase tracking-wide [word-spacing:0.3rem]">

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AxiosError } from "axios";
 
 import { useAppSelector } from "../../redux/store";
 import { useHousePage } from "./useHousePage";
@@ -54,6 +55,20 @@ function HousePage() {
       setSliderIdx(parseInt(val));
     }
   };
+
+  useEffect(() => {
+    if (houseLoadingError) {
+      let errorMessage = "An error occured";
+      if (houseLoadingError instanceof AxiosError) {
+        if (houseLoadingError?.response?.data) {
+          errorMessage = `${houseLoadingError.response.data}`;
+        } else {
+          errorMessage = `${houseLoadingError.message}`;
+        }
+      }
+      throw new Error(errorMessage);
+    }
+  }, [houseLoadingError]);
 
   return houseData === undefined || isLoadingHouse ? (
     <HouseSkeleton />

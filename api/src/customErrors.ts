@@ -3,7 +3,6 @@ import { Prisma } from "@prisma/client";
 export const handlePrismaError = (
   err: Prisma.PrismaClientKnownRequestError
 ) => {
-  console.log(err.meta);
   switch (err.code) {
     case "P2002": {
       // handling duplicate key errors
@@ -27,6 +26,9 @@ export const handlePrismaError = (
       };
     default:
       // handling all other errors
+      if (err.message.includes("Malformed ObjectID")) {
+        return { status: 400, message: `House not found` };
+      }
 
       return { status: 500, message: `Something went wrong: ${err.message}` };
   }

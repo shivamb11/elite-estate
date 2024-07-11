@@ -102,6 +102,7 @@ function ProfileUpdate() {
       {isPending && (
         <Spinner parentContainerClassName="absolute z-10 flex h-full w-full items-center justify-center backdrop-blur-[2px]" />
       )}
+
       <div className="flex h-full w-full flex-col gap-7 py-3 lg:w-3/5 lg:pr-28">
         <h1 className="text-2xl font-light xs:text-3xl">Update Information</h1>
         <form

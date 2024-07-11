@@ -92,18 +92,12 @@ function Register() {
     }
   }, [error]);
 
-  if (isPending) {
-    return (
-      <Spinner
-        parentContainerClassName={
-          "flex justify-center items-center min-h-[calc(90vh-112px)]"
-        }
-      />
-    );
-  }
-
   return (
     <div className="flex min-h-[calc(100vh-112px)] w-full ">
+      {isPending && (
+        <Spinner parentContainerClassName="absolute z-10 flex h-full w-full items-center justify-center backdrop-blur-[2px]" />
+      )}
+
       <div className="my-auto w-full lg:w-3/5 lg:pr-28">
         <div className="mx-auto flex w-fit flex-col items-center gap-[33px] px-4 py-4 shadow-all-sm sm:p-8 md:px-10 md:shadow-all-lg">
           <h1 className="text-center text-3xl font-semibold uppercase tracking-wide [word-spacing:0.3rem]">
