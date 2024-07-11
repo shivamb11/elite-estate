@@ -157,7 +157,13 @@ function Register() {
                 className="h-12 w-full border-2 px-4 py-2 focus:outline-yellow-500"
                 id="password"
                 placeholder="Password"
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 4,
+                    message: "Too short. Minimum 4 characters",
+                  },
+                })}
               />
               {errors.password?.message && (
                 <ReactFormError message={errors.password.message} />

@@ -66,6 +66,7 @@ function Login() {
             className="flex w-full flex-col gap-7"
             onSubmit={handleSubmit(onSubmit)}
             noValidate
+            onChange={() => submitError && setsubmitError("")}
           >
             <div className="space-y-2 ">
               <input
@@ -88,7 +89,7 @@ function Login() {
                   required: "Password is required",
                   minLength: {
                     value: 4,
-                    message: "Too short. Minimum 5 characters",
+                    message: "Too short. Minimum 4 characters",
                   },
                 })}
               />
