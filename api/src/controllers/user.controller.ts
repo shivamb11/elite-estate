@@ -143,22 +143,20 @@ export const updateUser = catchAsync(async (req: Request, res: Response) => {
     newPassword = await bcrypt.hash(password, 12);
   }
 
-  if (avatar) {
-    // Delete the previous one from cloudinary by first finding the avatar and then deleting it.
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        avatar: true,
-      },
-    });
+  // Delete the previous one from cloudinary by first finding the avatar and then comparing it with the request.
+  const foundUser = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      avatar: true,
+    },
+  });
 
-    if (user?.avatar?.filename) {
-      cloudinary.uploader
-        .destroy(user.avatar.public_id, { invalidate: true })
-        .then((result) => console.log(result));
-    }
+  if (foundUser?.avatar?.url && foundUser?.avatar?.url !== avatar.url) {
+    cloudinary.uploader
+      .destroy(foundUser.avatar.public_id, { invalidate: true })
+      .then((result) => console.log(result));
   }
 
   const user = await prisma.user.update({
@@ -169,11 +167,9 @@ export const updateUser = catchAsync(async (req: Request, res: Response) => {
       fullname,
       email,
       ...(newPassword && { password: newPassword }),
-      ...(avatar && {
-        avatar: {
-          update: avatar,
-        },
-      }),
+      avatar: {
+        update: avatar,
+      },
     },
     select: {
       id: true,

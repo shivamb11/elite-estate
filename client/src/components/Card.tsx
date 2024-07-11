@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { useUserSavedPost } from "../pages/HousePage/useUserSavedPost";
+import { useUpdateUserSavedPost } from "../pages/HousePage/useUpdateUserSavedPost";
 import { capitalizeWord } from "../utils";
 
 type CardProps = {
@@ -35,18 +35,18 @@ type CardProps = {
 };
 
 function Card({ item }: CardProps) {
-  const { mutate, isPending, error } = useUserSavedPost();
+  const { mutate, isPending, error } = useUpdateUserSavedPost();
 
   return (
     <li className="flex w-full flex-col gap-2 py-3 lg:flex-row lg:gap-4">
       <Link
-        to={`/${item.id}`}
+        to={`/post/${item.id}`}
         className="flex h-64 items-center lg:h-48 lg:w-64"
       >
         <img
-          src={item.image.url.replace("upload/", "upload/c_fill,h_190,w_225/")}
+          src={item.image?.url.replace("upload/", "upload/c_fill,h_220,w_250/")}
           className="h-full w-full cursor-pointer rounded-md object-cover"
-          alt=""
+          alt="house-img"
         />
       </Link>
       <div className="flex flex-col gap-4 lg:w-3/4 lg:justify-between">

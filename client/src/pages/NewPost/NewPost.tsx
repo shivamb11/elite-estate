@@ -41,12 +41,11 @@ function NewPost() {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    reset,
   } = useForm<FormInputs>();
 
   const { mutate, isPending, error } = useCreatePost();
 
-  const [submitError, setsubmitError] = useState<string>("");
+  const [submitError, setSubmitError] = useState<string>("");
 
   const [nearbyPlaces, setNearbyPlaces] = useState<
     { key: string; value: string }[]
@@ -64,6 +63,8 @@ function NewPost() {
       public_id: string;
     }[]
   >([]);
+
+  const [imagesError, setImagesError] = useState<string>("");
 
   const deleteimages = (public_id: string) => {
     setImages((state) =>
@@ -94,6 +95,13 @@ function NewPost() {
   };
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    setImagesError("");
+
+    if (images.length === 0) {
+      setImagesError("Atleast one image is required");
+      return;
+    }
+
     const finalData = {
       title: data.title,
       price: Number(data.price),
@@ -120,9 +128,8 @@ function NewPost() {
       images,
     };
 
-    setsubmitError("");
+    setSubmitError("");
     mutate(finalData);
-    // reset(undefined, { keepValues: true });
   };
 
   useEffect(() => {
@@ -135,7 +142,7 @@ function NewPost() {
           errorMessage = `${error.message}`;
         }
       }
-      setsubmitError(errorMessage);
+      setSubmitError(errorMessage);
     }
   }, [error]);
 
@@ -672,6 +679,11 @@ function NewPost() {
               Go back
             </Link>
           </div>
+          {submitError && (
+            <p className="hidden text-sm text-red-500 lg:block">
+              {submitError}. Please try after sometime.
+            </p>
+          )}
         </form>
       </div>
 
@@ -694,7 +706,7 @@ function NewPost() {
             </div>
           ))}
         </div>
-        <div className="space-y-2 text-center">
+        <div className="space-y-3 text-center">
           <CloudinaryUploadWidget
             uwConfig={{
               cloudName: CLOUDINARY_CLOUD_NAME,
@@ -715,6 +727,7 @@ function NewPost() {
             setState={setImages}
             disabled={nearbyPlaces.length === 4 || isSubmitting || isPending}
           />
+          <p className="text-sm text-red-500">{imagesError}</p>
           <p className="text-xs">(Max limit 4)</p>
         </div>
       </div>
@@ -723,7 +736,7 @@ function NewPost() {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <div className="mb-6 mt-3 flex gap-1">
+        <div className="mb-5 mt-3 flex gap-1">
           <button
             className="h-12 w-1/2 border-2 bg-yellow-500 uppercase text-white hover:bg-yellow-400 focus:outline-yellow-500 disabled:cursor-not-allowed disabled:bg-yellow-300 lg:col-span-2"
             disabled={isSubmitting || isPending}
@@ -737,6 +750,11 @@ function NewPost() {
             Go back
           </Link>
         </div>
+        {submitError && (
+          <p className="mb-5 text-center text-sm text-red-500 lg:hidden">
+            {submitError}. Please try after sometime.
+          </p>
+        )}
       </form>
     </div>
   );

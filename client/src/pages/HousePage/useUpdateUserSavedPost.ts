@@ -25,7 +25,7 @@ async function updateUserSavedPost(
   toast.success(res.data.message);
 }
 
-export function useUserSavedPost() {
+export function useUpdateUserSavedPost() {
   const dispatch = useAppDispatch();
 
   const { mutate, isPending, error } = useMutation({

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { useAppSelector } from "../../redux/store";
 import { useHousePage } from "./useHousePage";
-import { useUserSavedPost } from "./useUserSavedPost";
+import { useUpdateUserSavedPost } from "./useUpdateUserSavedPost";
 import Slider from "../../components/Slider";
 import LocationMap from "../../components/LocationMap";
 import {
@@ -33,7 +33,7 @@ function HousePage() {
     mutate,
     isPending: isUpdatingSavedPost,
     error: savedPostUpdatingError,
-  } = useUserSavedPost();
+  } = useUpdateUserSavedPost();
 
   const user = useAppSelector((state) => state.user).currentUser;
 
@@ -69,14 +69,19 @@ function HousePage() {
     <div className="flex flex-col gap-10 lg:flex-row lg:gap-0">
       <div className="flex h-full flex-col gap-7 lg:w-3/5 lg:pr-10">
         <div className="flex h-72 gap-4 lg:h-[360px]">
-          <div className="h-full flex-[3]" onClick={() => handleSliderIdx("0")}>
+          <div
+            className={`h-full ${houseData.images.length === 1 ? "flex-auto" : "flex-[3]"}`}
+            onClick={() => handleSliderIdx("0")}
+          >
             <img
-              src={houseData.images[0].url}
+              src={houseData.images[0]?.url}
               className="h-full w-full cursor-pointer rounded-md object-cover shadow-xl transition-all duration-300 hover:scale-[1.01]"
               alt="house-img"
             />
           </div>
-          <div className="flex h-full flex-1 flex-col justify-between">
+          <div
+            className={`flex h-full ${houseData.images.length === 1 ? "hidden" : "flex-[1]"} flex-col justify-between`}
+          >
             {houseData.images.slice(1).map((item, idx) => (
               <img
                 className="h-20 w-full cursor-pointer rounded-md object-cover shadow-xl transition-all duration-300 hover:scale-[1.01] lg:h-28"
@@ -249,12 +254,12 @@ function HousePage() {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <button className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center xs:flex-row">
+          <button className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center hover:bg-gray-50 xs:flex-row">
             <img src="/chat.png" className="size-5" alt="chat-icon" />
             <span className="text-sm">Send a message</span>
           </button>
           <button
-            className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center disabled:cursor-not-allowed xs:flex-row"
+            className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center hover:bg-gray-50 disabled:cursor-not-allowed xs:flex-row"
             onClick={() => mutate(id!)}
             disabled={isUpdatingSavedPost}
           >

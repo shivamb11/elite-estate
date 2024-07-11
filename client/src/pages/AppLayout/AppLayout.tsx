@@ -6,7 +6,7 @@ import Modal from "../../components/Modal";
 
 function AppLayout() {
   return (
-    <div className="relative mx-auto max-h-full max-w-[1380px] px-10 md:px-12">
+    <div className="relative mx-auto max-h-full max-w-[1380px] px-8 md:px-12">
       <Modal>
         <Navbar />
 
