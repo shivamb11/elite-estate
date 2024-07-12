@@ -20,8 +20,9 @@ type LocationMapProps = {
 }[];
 
 function LocationMap({ data }: { data: LocationMapProps }) {
-  const initialLat = data.length === 1 ? data[0].latitude : 53;
-  const initialLong = data.length === 1 ? data[0].longitude : -1;
+  const initialLat = data.length === 1 ? data[0].latitude : 39.8283;
+  const initialLong = data.length === 1 ? data[0].longitude : -98.5795;
+  const zoom = data.length === 1 ? 7 : 2;
 
   const [viewport, setViewport] = useState<{
     latitude: number;
@@ -30,7 +31,7 @@ function LocationMap({ data }: { data: LocationMapProps }) {
   }>({
     latitude: initialLat,
     longitude: initialLong,
-    zoom: 6,
+    zoom,
   });
 
   const [selectedPlace, setSelectedPlace] = useState<null | {

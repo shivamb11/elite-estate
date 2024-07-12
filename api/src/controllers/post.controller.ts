@@ -241,6 +241,6 @@ export const deletePost = catchAsync(
       },
     });
 
-    res.status(200).send("Post deleted successfully");
+    res.status(200).send("Post unsaved successfully");
   }
 );

@@ -8,11 +8,10 @@ function Home() {
           <h1 className="text-4xl font-semibold md:text-5xl lg:text-6xl">
             Find Real Estate & Get Your Dream Place
           </h1>
-          <p className="text-justify ">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
-            explicabo suscipit cum eius, iure est nulla animi consequatur
-            facilis id pariatur fugit quos laudantium temporibus dolor ea
-            repellat provident impedit!
+          <p className="text-justify text-lg italic">
+            "Empower your real estate journey with Elite Estate&apos;s expert
+            insights. Start your search for the perfect property and uncover
+            endless possibilities. "
           </p>
           <Searchbar />
           <div className="flex justify-between">

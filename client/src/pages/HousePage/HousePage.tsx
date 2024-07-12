@@ -95,7 +95,7 @@ function HousePage() {
             />
           </div>
           <div
-            className={`flex h-full ${houseData.images.length === 1 ? "hidden" : "flex-[1]"} flex-col justify-between`}
+            className={`flex h-full ${houseData.images.length === 1 ? "hidden" : "flex-[1]"} ${houseData.images.length === 4 ? "justify-between" : "gap-6"} flex-col`}
           >
             {houseData.images.slice(1).map((item, idx) => (
               <img
@@ -111,7 +111,7 @@ function HousePage() {
         <div className="flex flex-col justify-between gap-7 md:flex-row">
           <div className="space-y-4 md:w-2/3">
             <h1 className="text-3xl font-medium">{houseData.title}</h1>
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between gap-2">
               <div className="flex items-center gap-2">
                 <img src="/pin.png" className="size-4" alt="location-pin-img" />
                 <span className="text-sm text-stone-700">
@@ -281,11 +281,11 @@ function HousePage() {
             disabled={isUpdatingSavedPost}
           >
             <img src="/save.png" className="size-5" alt="save-icon" />
-            <span className="text-sm">
-              {user?.savedPosts.map((item) => item.id).includes(id!)
-                ? "Unsave the place"
-                : "Save the place"}
-            </span>
+            {user?.savedPosts.map((item) => item.id).includes(id!) ? (
+              <span className="text-sm text-yellow-600">Unsave the place</span>
+            ) : (
+              <span className="text-sm">Save the place</span>
+            )}
           </button>
         </div>
       </div>
