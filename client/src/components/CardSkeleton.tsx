@@ -11,7 +11,7 @@ function CardSkeleton({ cards }: CardSkeletonProps) {
       key={idx}
     >
       <div className="flex h-64 items-center lg:h-48 lg:w-64">
-        <Skeleton containerClassName="h-[190px] w-[225px]" className="h-full" />
+        <Skeleton containerClassName="h-[190px] w-full" className="h-full" />
       </div>
       <div className="flex flex-col gap-4 lg:w-3/4 lg:justify-between">
         <div className="text-lg font-semibold">

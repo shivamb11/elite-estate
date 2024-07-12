@@ -10,7 +10,7 @@ export type FinalDataType = {
   property: string;
   features: {
     general: {
-      utilites: boolean;
+      utilities: boolean;
       petPolicy: boolean;
       income: boolean;
     };

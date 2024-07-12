@@ -118,7 +118,12 @@ function Navbar() {
               <>
                 <div className="h-full w-full">
                   <img
-                    src={user.avatar?.url || "/noavatar.jpg"}
+                    src={
+                      user.avatar?.url.replace(
+                        "upload/",
+                        "upload/c_fill,h_400,w_400/",
+                      ) || "/noavatar.jpg"
+                    }
                     className="size-9 rounded-full object-cover"
                     alt="user-img"
                   />

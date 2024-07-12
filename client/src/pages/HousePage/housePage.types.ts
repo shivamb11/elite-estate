@@ -11,7 +11,7 @@ export type HousePageType = {
   property: string;
   features: {
     general: {
-      utilites: boolean;
+      utilities: boolean;
       petPolicy: boolean;
       income: boolean;
     };

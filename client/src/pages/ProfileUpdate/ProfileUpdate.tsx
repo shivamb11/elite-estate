@@ -201,7 +201,7 @@ function ProfileUpdate() {
             className="w-full p-2 shadow-md"
             src={
               avatar[0].url
-                ? avatar[0].url.replace("upload/", "upload/c_fill,h_50,w_50/")
+                ? avatar[0].url.replace("upload/", "upload/c_fill,h_120,w_120/")
                 : "/noavatar.jpg"
             }
             alt="avatar"

@@ -42,8 +42,13 @@ function Profile() {
             <li className="flex items-center">
               <span className="w-1/3 md:w-1/6">Avatar:</span>
               <img
-                src={user?.avatar?.url || "/noavatar.jpg"}
-                className="size-8 rounded-full object-cover"
+                src={
+                  user?.avatar?.url.replace(
+                    "upload/",
+                    "upload/c_fill,h_100,w_100/",
+                  ) || "/noavatar.jpg"
+                }
+                className="size-9 rounded-full object-cover"
                 alt="user-avatar"
               />
             </li>

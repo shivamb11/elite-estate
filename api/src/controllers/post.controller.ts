@@ -28,7 +28,10 @@ export const getPosts = catchAsync(async (req: Request, res: Response) => {
 
   const posts = await prisma.post.findMany({
     where: {
-      city,
+      city: {
+        equals: city,
+        mode: "insensitive",
+      },
       transaction,
       property,
       features: {

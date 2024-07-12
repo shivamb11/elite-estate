@@ -23,7 +23,7 @@ type FormInputs = {
   house: number;
   bedrooms: number;
   bathrooms: number;
-  utilites: boolean;
+  utilities: boolean;
   petPolicy: boolean;
   income: boolean;
   nearbyPlaces: { key: string; value: string }[];
@@ -114,7 +114,7 @@ function NewPost() {
       property: data.property,
       features: {
         general: {
-          utilites: Boolean(Number(data.utilites)),
+          utilities: Boolean(Number(data.utilities)),
           petPolicy: Boolean(Number(data.petPolicy)),
           income: Boolean(Number(data.income)),
         },
@@ -462,11 +462,11 @@ function NewPost() {
                     <input
                       type="radio"
                       className="cursor-pointer accent-yellow-500"
-                      id="utilitesYes"
+                      id="utilitiesYes"
                       value={1}
-                      {...register("utilites", { required: "Select one" })}
+                      {...register("utilities", { required: "Select one" })}
                     />
-                    <label className="cursor-pointer" htmlFor="utilitesYes">
+                    <label className="cursor-pointer" htmlFor="utilitiesYes">
                       Yes
                     </label>
                   </div>
@@ -474,17 +474,17 @@ function NewPost() {
                     <input
                       type="radio"
                       className="cursor-pointer accent-yellow-500"
-                      id="utilitesNo"
+                      id="utilitiesNo"
                       value={0}
-                      {...register("utilites", { required: "Select one" })}
+                      {...register("utilities", { required: "Select one" })}
                     />
-                    <label className="cursor-pointer" htmlFor="utilitesNo">
+                    <label className="cursor-pointer" htmlFor="utilitiesNo">
                       No
                     </label>
                   </div>
-                  {errors.utilites?.message && (
+                  {errors.utilities?.message && (
                     <ReactFormError
-                      message={errors.utilites.message}
+                      message={errors.utilities.message}
                       className="w-16"
                     />
                   )}

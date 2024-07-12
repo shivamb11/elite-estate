@@ -34,6 +34,8 @@ app.use("/api/messages", messageRoutes);
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   const { status = 500, message } = err;
 
+  console.log(err);
+
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     const { status, message } = handlePrismaError(err);
     return res.status(status).send(message);

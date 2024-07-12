@@ -44,7 +44,7 @@ function Card({ item }: CardProps) {
         className="flex h-64 items-center lg:h-48 lg:w-64"
       >
         <img
-          src={item.image?.url.replace("upload/", "upload/c_fill,h_220,w_250/")}
+          src={item.image?.url.replace("upload/", "upload/c_fill,h_260,w_750/")}
           className="h-full w-full cursor-pointer rounded-md object-cover"
           alt="house-img"
         />

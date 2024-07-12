@@ -157,7 +157,7 @@ function HousePage() {
                 </h3>
                 <span className="text-sm text-stone-600">
                   {capitalizeSentence(
-                    houseData.features.general.utilites
+                    houseData.features.general.utilities
                       ? "tenant is responsible"
                       : "tenant is not responsible",
                   )}
@@ -237,8 +237,10 @@ function HousePage() {
               >
                 <img
                   src={
-                    nearbyPlacesImage.find((place) => place.key === item.key)
-                      ?.img
+                    nearbyPlacesImage.find(
+                      (place) =>
+                        place.key.toLowerCase() === item.key.toLowerCase(),
+                    )?.img
                   }
                   className="size-6 bg-yellow-100"
                   alt={`${item.key}-img`}
