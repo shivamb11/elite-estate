@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { useUpdateUserSavedPost } from "../pages/HousePage/useUpdateUserSavedPost";
+import { useAppSelector } from "../redux/store";
 import { capitalizeWord } from "../utils";
 
 type CardProps = {
@@ -36,6 +38,21 @@ type CardProps = {
 
 function Card({ item }: CardProps) {
   const { mutate, isPending, error } = useUpdateUserSavedPost();
+
+  const user = useAppSelector((state) => state.user).currentUser;
+
+  const navigate = useNavigate();
+
+  const handleClick = (id: string) => {
+    if (!user) {
+      toast("You need to login first", {
+        icon: "🔵",
+      });
+      return navigate("/login");
+    }
+
+    mutate(id);
+  };
 
   return (
     <li className="flex w-full flex-col gap-2 py-3 lg:flex-row lg:gap-4">
@@ -94,12 +111,16 @@ function Card({ item }: CardProps) {
           <div className="flex gap-4 lg:gap-2">
             <button
               className="border border-stone-300 p-2 hover:border-stone-500 disabled:cursor-not-allowed"
-              onClick={() => mutate(item.id)}
+              onClick={() => handleClick(item.id)}
               disabled={isPending}
             >
               <img src="/save.png" className="size-4" alt="save-img" />
             </button>
-            <button className="border border-stone-300 p-2 hover:border-stone-500">
+            <button
+              className="border border-stone-300 p-2 hover:border-stone-500 disabled:cursor-not-allowed"
+              onClick={() => handleClick(item.id)}
+              disabled={isPending}
+            >
               <img src="/chat.png" className="size-4" alt="chat-img" />
             </button>
           </div>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 
 import { useLogin } from "./useLogin";
+import { useAppSelector } from "../../redux/store";
 import ReactFormError from "../../components/ReactFormError";
 import Spinner from "../../components/Spinner";
 
@@ -19,6 +20,8 @@ function Login() {
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<FormInputs>();
+
+  const user = useAppSelector((state) => state.user).currentUser;
 
   const [submitError, setsubmitError] = useState<string>("");
 
@@ -44,6 +47,10 @@ function Login() {
       setsubmitError(errorMessage);
     }
   }, [error]);
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="flex h-[calc(100vh-112px)] w-full">
