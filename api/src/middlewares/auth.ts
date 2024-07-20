@@ -76,6 +76,10 @@ export const authorizeChatParticipant = catchAsync(
     const { id } = req.params;
     const userId = req.user!;
 
+    if (id === "null") {
+      return next();
+    }
+
     const chat = await prisma.chat.findUnique({
       where: {
         id,

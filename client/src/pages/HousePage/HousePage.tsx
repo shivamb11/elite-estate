@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AxiosError } from "axios";
 
 import { useAppSelector } from "../../redux/store";
 import { useHousePage } from "./useHousePage";
 import { useUpdateUserSavedPost } from "./useUpdateUserSavedPost";
+import { useMessage } from "../../context/message/useMessage";
 import Slider from "../../components/Slider";
 import LocationMap from "../../components/LocationMap";
 import {
@@ -14,6 +15,7 @@ import {
   capitalizeWord,
 } from "../../utils";
 import HouseSkeleton from "../../components/HouseSkeleton";
+import axiosInstance from "../../lib/axiosInstance";
 
 const nearbyPlacesImage = [
   { key: "School", img: "/school.png" },
@@ -36,7 +38,11 @@ function HousePage() {
     error: savedPostUpdatingError,
   } = useUpdateUserSavedPost();
 
+  const { setSelectedChat } = useMessage();
+
   const user = useAppSelector((state) => state.user).currentUser;
+
+  const navigate = useNavigate();
 
   const [sliderIdx, setSliderIdx] = useState<null | number>(null);
 
@@ -54,6 +60,14 @@ function HousePage() {
     } else {
       setSliderIdx(parseInt(val));
     }
+  };
+
+  const handleChatClick = async () => {
+    const res = await axiosInstance.get(
+      "/chats" + "/" + user?.id + "/" + houseData?.user.id,
+    );
+    setSelectedChat(res.data);
+    navigate("/profile");
   };
 
   useEffect(() => {
@@ -271,10 +285,15 @@ function HousePage() {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <button className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center hover:bg-gray-50 xs:flex-row">
-            <img src="/chat.png" className="size-5" alt="chat-icon" />
-            <span className="text-sm">Send a message</span>
-          </button>
+          {houseData.user.id !== user?.id && (
+            <button
+              className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center hover:bg-gray-50 xs:flex-row"
+              onClick={handleChatClick}
+            >
+              <img src="/chat.png" className="size-5" alt="chat-icon" />
+              <span className="text-sm">Send a message</span>
+            </button>
+          )}
           <button
             className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center hover:bg-gray-50 disabled:cursor-not-allowed xs:flex-row"
             onClick={() => mutate(id!)}

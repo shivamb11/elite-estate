@@ -73,9 +73,9 @@ function Navbar() {
                       color: `${openMenu ? "white" : "black"}`,
                     }}
                   />
-                  <span className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+                  {/* <span className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
                     {messageCount}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </Modal.Button>
@@ -133,9 +133,9 @@ function Navbar() {
                 </div>
                 <div className="relative">
                   <ButtonLink to="/profile">Profile</ButtonLink>
-                  <span className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
+                  {/* <span className="absolute -right-2 -top-2 rounded-full bg-red-500 px-2 py-1 text-xs text-white">
                     {messageCount}
-                  </span>
+                  </span> */}
                 </div>
               </>
             ) : (

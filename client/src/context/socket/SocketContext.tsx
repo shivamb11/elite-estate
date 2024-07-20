@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-import { useAppSelector } from "../redux/store";
+import { useAppSelector } from "../../redux/store";
 import { ClientToServerEvents, ServerToClientEvents } from "./socketIO.types";
 
 type SocketContextType = {

@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 
 import "react-loading-skeleton/dist/skeleton.css";
 
-import { SocketProvider } from "./context/SocketContext";
 import AppLayout from "./pages/AppLayout/AppLayout";
 import Home from "./pages/Home/Home";
 import HouseListPage from "./pages/HouseListPage/HouseListPage";
@@ -17,6 +16,8 @@ import Profile from "./pages/Profile/Profile";
 import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
 import NewPost from "./pages/NewPost/NewPost";
 import ErrorPage from "./pages/Error/ErrorPage";
+import { MessageProvider } from "./context/message/MessageContext";
+import { SocketProvider } from "./context/socket/SocketContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -86,20 +87,22 @@ const router = createBrowserRouter([
 function App() {
   return (
     <SocketProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster
-          toastOptions={{
-            success: {
-              duration: 2000,
-            },
-            error: {
-              duration: 3000,
-            },
-          }}
-        />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <MessageProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <Toaster
+            toastOptions={{
+              success: {
+                duration: 2000,
+              },
+              error: {
+                duration: 3000,
+              },
+            }}
+          />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </MessageProvider>
     </SocketProvider>
   );
 }

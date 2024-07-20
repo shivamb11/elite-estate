@@ -49,7 +49,7 @@ export const getChats = catchAsync(
   }
 );
 
-export const getChat = catchAsync(
+export const getChatByChatId = catchAsync(
   async (req: RequestWithUser, res: Response) => {
     const { id } = req.params;
 
@@ -99,6 +99,83 @@ export const getChat = catchAsync(
     const updatedChat = await prisma.chat.update({
       where: {
         id,
+      },
+      data: {
+        seenBy: {
+          push: req.user,
+        },
+      },
+      include: {
+        messages: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+      },
+    });
+
+    res.status(200).send({ ...updatedChat, receiver });
+  }
+);
+
+export const getChatByUserIds = catchAsync(
+  async (req: RequestWithUser, res: Response) => {
+    const { id1, id2 } = req.params;
+
+    const chat = await prisma.chat.findFirst({
+      where: {
+        userIds: {
+          hasEvery: [id1, id2],
+        },
+      },
+      select: {
+        id: true,
+        userIds: true,
+        seenBy: true,
+        messages: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+        createdAt: true,
+      },
+    });
+
+    const receiver = await prisma.user.findUnique({
+      where: {
+        id: id2,
+      },
+      select: {
+        id: true,
+        username: true,
+        fullname: true,
+        avatar: {
+          select: {
+            url: true,
+          },
+        },
+      },
+    });
+
+    if (!chat) {
+      return res.status(200).send({
+        id: null,
+        userIds: [id1, id2],
+        seenBy: [id1],
+        createdAt: null,
+        receiver,
+        messages: [],
+      });
+    }
+
+    if (chat?.seenBy.includes(req.user!) === true) {
+      return res.status(200).send({ ...chat, receiver });
+    }
+
+    // Return updated chat
+    const updatedChat = await prisma.chat.update({
+      where: {
+        id: id1,
       },
       data: {
         seenBy: {

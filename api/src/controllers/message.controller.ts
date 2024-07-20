@@ -9,39 +9,58 @@ export const addMessage = catchAsync(
     const { text } = req.body;
     const { id: chatId } = req.params;
 
-    const chat = await prisma.chat.findUnique({
-      where: {
-        id: chatId,
-        userIds: {
-          hasSome: [req.user!],
-        },
-      },
-    });
+    if (chatId === "null") {
+      const { receiverId } = req.body;
 
-    if (!chat) {
-      return res.status(404).send("Chat not found");
+      const newChat = await prisma.chat.create({
+        data: {
+          userIds: [req.user!, receiverId],
+        },
+      });
+
+      const newMessage = await prisma.message.create({
+        data: {
+          userId: req.user!,
+          text,
+          chatId: newChat.id,
+        },
+      });
+
+      await prisma.chat.update({
+        where: {
+          id: newChat.id,
+        },
+        data: {
+          seenBy: {
+            set: [req.user!],
+          },
+          lastMessage: text,
+        },
+      });
+
+      res.status(200).send(newMessage);
+    } else {
+      const newMessage = await prisma.message.create({
+        data: {
+          userId: req.user!,
+          text,
+          chatId,
+        },
+      });
+
+      await prisma.chat.update({
+        where: {
+          id: chatId,
+        },
+        data: {
+          seenBy: {
+            set: [req.user!],
+          },
+          lastMessage: text,
+        },
+      });
+
+      res.status(200).send(newMessage);
     }
-
-    const newMessage = await prisma.message.create({
-      data: {
-        userId: req.user!,
-        text,
-        chatId,
-      },
-    });
-
-    await prisma.chat.update({
-      where: {
-        id: chatId,
-      },
-      data: {
-        seenBy: {
-          set: [req.user!],
-        },
-        lastMessage: text,
-      },
-    });
-
-    res.status(200).send(newMessage);
   }
 );

@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
 } from "react";
 import { BsSend } from "react-icons/bs";
 import { formatDistance } from "date-fns";
@@ -13,14 +12,15 @@ import { useGetChats } from "./useGetChats";
 import { useGetChat } from "./useGetChat";
 import { useAppSelector } from "../../redux/store";
 import { useSendMessage } from "./useSendMessage";
-import { useSocket } from "../../context/useSocket";
-import { ChatDataType } from "./data.types";
+import { useSocket } from "../../context/socket/useSocket";
+import { useMessage } from "../../context/message/useMessage";
 
 function Chat() {
   const user = useAppSelector((state) => state.user).currentUser;
   const { socket } = useSocket();
 
-  const [selectedChat, setSelectedChat] = useState<ChatDataType | null>(null);
+  const { selectedChat, setSelectedChat } = useMessage();
+
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   const { data: chatsData, isPending: isLoadingChats } = useGetChats();
@@ -31,24 +31,34 @@ function Chat() {
     isPending: isSendingMessage,
   } = useSendMessage();
 
+  // Set selected chat after clicking one chat
   useEffect(() => {
     if (chatData) setSelectedChat(chatData);
-  }, [chatData]);
+  }, [chatData, setSelectedChat]);
 
+  // Scroll to selected chat last message after any change in selected chat
   useEffect(() => {
     if (selectedChat)
       messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [selectedChat]);
 
+  // Set selected chat after sending a message
   useEffect(() => {
     if (messageData !== undefined) {
       setSelectedChat((prevChat) => {
         if (!prevChat) return prevChat;
+        if (!prevChat.id)
+          return {
+            ...prevChat,
+            id: messageData.chatId,
+            messages: [...prevChat.messages, messageData],
+          };
         return { ...prevChat, messages: [...prevChat.messages, messageData] };
       });
     }
-  }, [messageData]);
+  }, [messageData, setSelectedChat]);
 
+  // Set selected chat after receivng socket event
   useEffect(() => {
     const handleMessage = (messageData: {
       id: string;
@@ -68,7 +78,7 @@ function Chat() {
     return () => {
       socket?.off("getMessage", handleMessage);
     };
-  }, [socket]);
+  }, [socket, setSelectedChat]);
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -103,7 +113,7 @@ function Chat() {
         ? setSelectedChat(null)
         : getChatMutuate(chatId);
     },
-    [selectedChat?.id, getChatMutuate],
+    [selectedChat?.id, getChatMutuate, setSelectedChat],
   );
 
   if (isLoadingChats || chatsData === undefined) return null;
@@ -128,7 +138,9 @@ function Chat() {
               />
               <span>{chat.receiver?.username}</span>
               <span className="flex-1 text-sm">
-                {chat.lastMessage?.substring(0, 30) + "..." || "No message"}
+                {(chat.lastMessage &&
+                  chat.lastMessage.substring(0, 30) + "...") ||
+                  "No message"}
               </span>
             </div>
           ))}

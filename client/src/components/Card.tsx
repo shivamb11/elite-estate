@@ -2,8 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { useUpdateUserSavedPost } from "../pages/HousePage/useUpdateUserSavedPost";
+import { useMessage } from "../context/message/useMessage";
 import { useAppSelector } from "../redux/store";
 import { capitalizeWord } from "../utils";
+import axiosInstance from "../lib/axiosInstance";
 
 type CardProps = {
   item: {
@@ -41,9 +43,11 @@ function Card({ item }: CardProps) {
 
   const user = useAppSelector((state) => state.user).currentUser;
 
+  const { setSelectedChat } = useMessage();
+
   const navigate = useNavigate();
 
-  const handleClick = (id: string) => {
+  const handleSaveClick = (id: string) => {
     if (!user) {
       toast("You need to login first", {
         icon: "🔵",
@@ -52,6 +56,14 @@ function Card({ item }: CardProps) {
     }
 
     mutate(id);
+  };
+
+  const handleChatClick = async () => {
+    const res = await axiosInstance.get(
+      "/chats" + "/" + user?.id + "/" + item?.user.id,
+    );
+    setSelectedChat(res.data);
+    navigate("/profile");
   };
 
   return (
@@ -111,18 +123,20 @@ function Card({ item }: CardProps) {
           <div className="flex gap-4 lg:gap-2">
             <button
               className="border border-stone-300 p-2 hover:border-stone-500 disabled:cursor-not-allowed"
-              onClick={() => handleClick(item.id)}
+              onClick={() => handleSaveClick(item.id)}
               disabled={isPending}
             >
               <img src="/save.png" className="size-4" alt="save-img" />
             </button>
-            <button
-              className="border border-stone-300 p-2 hover:border-stone-500 disabled:cursor-not-allowed"
-              onClick={() => handleClick(item.id)}
-              disabled={isPending}
-            >
-              <img src="/chat.png" className="size-4" alt="chat-img" />
-            </button>
+            {user?.id !== item.user.id && (
+              <button
+                className="border border-stone-300 p-2 hover:border-stone-500 disabled:cursor-not-allowed"
+                onClick={handleChatClick}
+                disabled={isPending}
+              >
+                <img src="/chat.png" className="size-4" alt="chat-img" />
+              </button>
+            )}
           </div>
         </div>
       </div>

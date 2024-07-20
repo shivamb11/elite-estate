@@ -2,7 +2,8 @@ import express from "express";
 
 import {
   addChat,
-  getChat,
+  getChatByChatId,
+  getChatByUserIds,
   getChats,
   readChat,
 } from "../controllers/chat.controller";
@@ -12,7 +13,9 @@ const router = express.Router();
 
 router.get("/", verifyToken, getChats);
 
-router.get("/:id", verifyToken, authorizeChatParticipant, getChat);
+router.get("/:id1/:id2", verifyToken, getChatByUserIds);
+
+router.get("/:id", verifyToken, authorizeChatParticipant, getChatByChatId);
 
 router.post("/", verifyToken, addChat);
 

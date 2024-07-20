@@ -2,12 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import axiosInstance from "../../lib/axiosInstance";
-import { useSocket } from "../../context/useSocket";
+import { useSocket } from "../../context/socket/useSocket";
 import { Socket } from "socket.io-client";
 import {
   ClientToServerEvents,
   ServerToClientEvents,
-} from "../../context/socketIO.types";
+} from "../../context/socket/socketIO.types";
 
 async function sendMessage({
   chatId,
@@ -20,7 +20,10 @@ async function sendMessage({
   receiverId: string;
   socket: Socket<ServerToClientEvents, ClientToServerEvents> | null;
 }) {
-  const res = await axiosInstance.post("/messages" + "/" + chatId, { text });
+  const res = await axiosInstance.post("/messages" + "/" + chatId, {
+    text,
+    receiverId,
+  });
   toast.success("Message sent successfully");
   socket?.emit("sendMessage", receiverId, res.data);
   return res.data;
