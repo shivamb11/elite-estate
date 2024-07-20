@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 import { useAppSelector } from "../../redux/store";
 import { useHousePage } from "./useHousePage";
@@ -63,11 +64,29 @@ function HousePage() {
   };
 
   const handleChatClick = async () => {
+    if (!user) {
+      toast("You need to login first", {
+        icon: "🔵",
+      });
+      return navigate("/login");
+    }
+
     const res = await axiosInstance.get(
       "/chats" + "/" + user?.id + "/" + houseData?.user.id,
     );
     setSelectedChat(res.data);
     navigate("/profile");
+  };
+
+  const handleSaveClick = (id: string) => {
+    if (!user) {
+      toast("You need to login first", {
+        icon: "🔵",
+      });
+      return navigate("/login");
+    }
+
+    mutate(id!);
   };
 
   useEffect(() => {
@@ -296,7 +315,7 @@ function HousePage() {
           )}
           <button
             className="flex w-fit flex-col items-center gap-2 bg-white px-5 py-4 text-center hover:bg-gray-50 disabled:cursor-not-allowed xs:flex-row"
-            onClick={() => mutate(id!)}
+            onClick={() => handleSaveClick(id!)}
             disabled={isUpdatingSavedPost}
           >
             <img src="/save.png" className="size-5" alt="save-icon" />

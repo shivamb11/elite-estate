@@ -110,7 +110,7 @@ function Login() {
             </button>
             <Link
               to="/register"
-              className="*: cursor-pointer text-sm tracking-wide text-indigo-400"
+              className="*: cursor-pointer text-sm tracking-wide text-indigo-400 hover:underline"
             >
               Didn't have an account ? Create one.
             </Link>

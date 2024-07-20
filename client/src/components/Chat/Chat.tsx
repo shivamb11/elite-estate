@@ -51,6 +51,7 @@ function Chat() {
           return {
             ...prevChat,
             id: messageData.chatId,
+            createdAt: messageData.createdAt,
             messages: [...prevChat.messages, messageData],
           };
         return { ...prevChat, messages: [...prevChat.messages, messageData] };
@@ -69,6 +70,13 @@ function Chat() {
     }) => {
       setSelectedChat((prevChat) => {
         if (!prevChat) return prevChat;
+        if (!prevChat.id)
+          return {
+            ...prevChat,
+            id: messageData.chatId,
+            createdAt: messageData.createdAt,
+            messages: [...prevChat.messages, messageData],
+          };
         return { ...prevChat, messages: [...prevChat.messages, messageData] };
       });
     };

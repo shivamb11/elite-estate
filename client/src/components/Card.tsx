@@ -59,6 +59,13 @@ function Card({ item }: CardProps) {
   };
 
   const handleChatClick = async () => {
+    if (!user) {
+      toast("You need to login first", {
+        icon: "🔵",
+      });
+      return navigate("/login");
+    }
+
     const res = await axiosInstance.get(
       "/chats" + "/" + user?.id + "/" + item?.user.id,
     );
