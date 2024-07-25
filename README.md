@@ -1,6 +1,6 @@
 # Welcome to Elite Estate 🏡
 
-Elite Estate is not just another real estate platform; it's an innovative experience where technology meets convenience, transforming how you explore and list properties. Say goodbye to outdated methods and hello to a seamless, interactive journey!
+Elite Estate is a cutting-edge real estate platform that empowers property owners to effortlessly list their properties for sale, or rent. Viewers can enjoy an intuitive and interactive experience, exploring listings and connecting directly with owners.!
 
 ## What Sets Us Apart
 
