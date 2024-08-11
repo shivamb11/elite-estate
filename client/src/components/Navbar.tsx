@@ -31,22 +31,16 @@ function Navbar() {
             Home
           </Link>
           <Link
-            to="/"
+            to="/post/list"
             className="hidden transition-all hover:font-semibold md:block"
           >
-            About
+            Posts
           </Link>
           <Link
-            to="/"
+            to="/contact"
             className="hidden transition-all hover:font-semibold md:block"
           >
             Contact
-          </Link>
-          <Link
-            to="/"
-            className="hidden transition-all hover:font-semibold md:block"
-          >
-            Agents
           </Link>
         </ul>
         <div className="relative flex h-full w-2/5 items-center justify-end py-8 pl-6 font-semibold lg:bg-orange-50 lg:px-6">
@@ -86,14 +80,11 @@ function Navbar() {
             <Link to="/" className="hover:text-neutral-200">
               Home
             </Link>
-            <Link to="/" className="hover:text-neutral-200">
-              About
+            <Link to="/post/list" className="hover:text-neutral-200">
+              Posts
             </Link>
-            <Link to="/" className="hover:text-neutral-200">
+            <Link to="/contact" className="hover:text-neutral-200">
               Contact
-            </Link>
-            <Link to="/" className="hover:text-neutral-200">
-              Agents
             </Link>
             {user ? (
               <Link to="/profile" className="hover:text-neutral-200">

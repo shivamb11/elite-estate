@@ -86,6 +86,9 @@ function Profile() {
               ))
             )}
           </ul>
+          {userData?.posts.length === 0 && (
+            <p>Currently there are no added posts !</p>
+          )}
         </div>
         <div className="flex flex-col gap-5">
           <div className="flex items-center justify-between">
@@ -103,6 +106,9 @@ function Profile() {
               ))
             )}
           </ul>
+          {userData?.savedPosts.length === 0 && (
+            <p>Currently there are no saved posts !</p>
+          )}
         </div>
       </div>
 

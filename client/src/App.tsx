@@ -15,6 +15,7 @@ import ProtectedLayout from "./pages/ProtectedLayout/ProtectedLayout";
 import Profile from "./pages/Profile/Profile";
 import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
 import NewPost from "./pages/NewPost/NewPost";
+import Contact from "./pages/Contact/Contact";
 import ErrorPage from "./pages/Error/ErrorPage";
 import { MessageProvider } from "./context/message/MessageContext";
 import { SocketProvider } from "./context/socket/SocketContext";
@@ -56,6 +57,11 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
         errorElement: <ErrorPage />,
       },
     ],
