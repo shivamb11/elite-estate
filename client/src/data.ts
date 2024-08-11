@@ -108,20 +108,11 @@ export const houseData = {
   transaction: "buy",
   property: "villa",
   features: {
-    general: [
-      {
-        key: "utilities",
-        value: true,
-      },
-      {
-        key: "pet policy",
-        value: true,
-      },
-      {
-        key: "income",
-        value: false,
-      },
-    ],
+    general: {
+      utilities: true,
+      petPolicy: true,
+      income: false,
+    },
     sizes: {
       house: 861,
       bedrooms: 2,

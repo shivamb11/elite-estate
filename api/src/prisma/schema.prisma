@@ -82,7 +82,7 @@ enum Property {
 }
 
 type Feature {
-  general General[]
+  general General
   sizes Size
   nearbyPlaces NearbyPlace[]
 }
