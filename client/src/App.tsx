@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -5,20 +6,24 @@ import { Toaster } from "react-hot-toast";
 
 import "react-loading-skeleton/dist/skeleton.css";
 
-import AppLayout from "./pages/AppLayout/AppLayout";
-import Home from "./pages/Home/Home";
-import HouseListPage from "./pages/HouseListPage/HouseListPage";
-import HousePage from "./pages/HousePage/HousePage";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import ProtectedLayout from "./pages/ProtectedLayout/ProtectedLayout";
-import Profile from "./pages/Profile/Profile";
-import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
-import NewPost from "./pages/NewPost/NewPost";
-import Contact from "./pages/Contact/Contact";
-import ErrorPage from "./pages/Error/ErrorPage";
 import { MessageProvider } from "./context/message/MessageContext";
 import { SocketProvider } from "./context/socket/SocketContext";
+import Spinner from "./components/Spinner";
+
+const AppLayout = lazy(() => import("./pages/AppLayout/AppLayout"));
+const Home = lazy(() => import("./pages/Home/Home"));
+const HouseListPage = lazy(() => import("./pages/HouseListPage/HouseListPage"));
+const HousePage = lazy(() => import("./pages/HousePage/HousePage"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const Register = lazy(() => import("./pages/Register/Register"));
+const Contact = lazy(() => import("./pages/Contact/Contact"));
+const ProtectedLayout = lazy(
+  () => import("./pages/ProtectedLayout/ProtectedLayout"),
+);
+const Profile = lazy(() => import("./pages/Profile/Profile"));
+const ProfileUpdate = lazy(() => import("./pages/ProfileUpdate/ProfileUpdate"));
+const NewPost = lazy(() => import("./pages/NewPost/NewPost"));
+const ErrorPage = lazy(() => import("./pages/Error/ErrorPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -95,17 +100,23 @@ function App() {
     <SocketProvider>
       <MessageProvider>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <Toaster
-            toastOptions={{
-              success: {
-                duration: 2000,
-              },
-              error: {
-                duration: 3000,
-              },
-            }}
-          />
+          <Suspense
+            fallback={
+              <Spinner parentContainerClassName="absolute z-10 flex h-full w-full items-center justify-center backdrop-blur-[2px]" />
+            }
+          >
+            <RouterProvider router={router} />
+            <Toaster
+              toastOptions={{
+                success: {
+                  duration: 2000,
+                },
+                error: {
+                  duration: 3000,
+                },
+              }}
+            />
+          </Suspense>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </MessageProvider>
