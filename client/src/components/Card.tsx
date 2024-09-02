@@ -74,7 +74,7 @@ function Card({ item }: CardProps) {
   };
 
   return (
-    <li className="mx-1 my-1 w-full rounded-lg px-3 py-2 hover:outline hover:outline-1 hover:outline-yellow-400 lg:flex-row lg:gap-4">
+    <li className="my-1 w-full rounded-lg py-2 hover:outline hover:outline-1 hover:outline-yellow-400 lg:mx-[1px] lg:flex-row lg:gap-4 lg:px-[10px]">
       <div className="flex flex-col gap-2 py-3 lg:flex-row lg:gap-4">
         <Link
           to={`/post/${item.id}`}

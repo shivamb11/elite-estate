@@ -14,7 +14,7 @@ function HouseListPage() {
 
   return (
     <div className="flex flex-col gap-4 lg:h-[calc(100vh-112px)] lg:flex-row lg:gap-0">
-      <div className="order-3 flex min-h-[50%] w-full flex-col gap-12 lg:order-1 lg:w-3/5 lg:overflow-auto lg:pr-8">
+      <div className="order-3 flex min-h-[50%] w-full flex-col gap-6 sm:gap-9 lg:order-1 lg:w-3/5 lg:overflow-auto lg:pr-8">
         <Filter />
         <ul className="mb-8 flex flex-col lg:divide-y lg:divide-stone-100">
           {listData === undefined || isPending ? (
