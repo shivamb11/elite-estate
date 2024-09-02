@@ -74,7 +74,7 @@ function Card({ item }: CardProps) {
   };
 
   return (
-    <li className="my-1 w-full rounded-lg py-2 hover:outline hover:outline-1 hover:outline-yellow-400 lg:mx-[1px] lg:flex-row lg:gap-4 lg:px-[10px]">
+    <li className="my-1 w-full rounded-lg py-2 md:mx-[1px] md:px-[10px] hover:md:outline hover:md:outline-1 hover:md:outline-yellow-400 lg:flex-row lg:gap-4">
       <div className="flex flex-col gap-2 py-3 lg:flex-row lg:gap-4">
         <Link
           to={`/post/${item.id}`}
@@ -94,7 +94,7 @@ function Card({ item }: CardProps) {
           <div className="flex flex-col justify-between gap-3 xs:flex-row">
             <div className="flex items-center gap-2">
               <img src="/pin.png" className="size-4" alt="marker-img" />
-              <span className="break-word text-stone-500">{item.address}</span>
+              <span className="text-stone-500">{item.address}</span>
             </div>
             <span className="text-stone-800">
               ({capitalizeWord(item.transaction)} /{" "}
